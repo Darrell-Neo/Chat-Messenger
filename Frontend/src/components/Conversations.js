@@ -34,7 +34,6 @@ const Conversations = ({ conversation, currentUser }) => {
     console.log(friendId);
 
     getUser("http://localhost:5001/users/finduser?userId=" + friendId);
-    // eslint-disable-next-line
   }, []);
 
   return (

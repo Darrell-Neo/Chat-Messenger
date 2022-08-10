@@ -6,9 +6,6 @@ import jwt_decode from "jwt-decode";
 const Login = () => {
   const reactCtx = useContext(ReactContext);
 
-  //create a create account for the front page
-
-  // POST /login
   const fetchLogin = async (url) => {
     const bod = JSON.stringify({
       email: reactCtx.emailInput,
@@ -26,8 +23,6 @@ const Login = () => {
 
     try {
       const res = await fetch(url, options);
-      console.log(res);
-      console.log(options);
 
       if (res.status !== 200) {
         window.alert("Please Register");
@@ -35,20 +30,13 @@ const Login = () => {
       }
 
       const data = await res.json();
-      // setData(data);
-      console.log(data); // this returns both access and refresh tokens as part of the data object
-      const access_token = data.access;
-      const refresh_token = data.refresh;
-      console.log(access_token);
-      console.log(refresh_token);
-      reactCtx.setAccess(access_token);
-      reactCtx.setRefresh(refresh_token);
+      reactCtx.setAccess(data.access);
+      reactCtx.setRefresh(data.refresh);
       reactCtx.setLoginState(true);
       reactCtx.setLoginEmail(reactCtx.emailInput);
-      reactCtx.setUser(jwt_decode(access_token));
-      console.log(reactCtx.user);
-    } catch (err) {
-      console.log(err);
+      reactCtx.setUser(jwt_decode(data.access));
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -57,8 +45,6 @@ const Login = () => {
     if (event.target.id === "email") reactCtx.setEmailInput(event.target.value);
     if (event.target.id === "password")
       reactCtx.setPasswordInput(event.target.value);
-    if (event.target.id === "search")
-      reactCtx.setSearchUserInput(event.target.value);
   }
 
   function handleLogin(event) {
@@ -66,7 +52,7 @@ const Login = () => {
     if (reactCtx.emailInput.includes("@")) {
       fetchLogin("http://localhost:5001/users/login");
     } else {
-      window.alert(`Please enter correct details`);
+      window.alert(`Please enter a valid email`);
     }
   }
 
@@ -75,43 +61,33 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         <div>
           <div>
-            <label className="text-center mx-auto m-2 w-1/3 block w-50 px-3 py-2">
-              Email
-            </label>
+            <label className="">Email</label>
           </div>
           <input
             type="email"
             onChange={handleInput}
             id="email"
             value={reactCtx.emailInput}
-            className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400
-            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
+            className=""
           ></input>
         </div>
         <div>
           <div>
-            <label className="text-center mx-auto m-2 w-1/3 block w-50 px-3 py-2">
-              Password
-            </label>
+            <label className="">Password</label>
           </div>
           <input
             type="password"
             onChange={handleInput}
             id="password"
             value={reactCtx.passwordInput}
-            className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400
-            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
+            className=""
           ></input>
         </div>
-        <div className="w-full mt-2 mb-2 py-2 text-center">
-          <button
-            onClick={handleLogin}
-            type="submit"
-            className="inline-block mx-auto mr-4 w-50 px-3 py-2 text-white font-semibold ml-4 rounded-lg shadow-md button-85"
-          >
+        <div className="">
+          <button onClick={handleLogin} type="submit" className="">
             <Link to="/messenger">Login</Link>
           </button>
-          <button className="inline-block mx-auto w-50 px-3 py-2 text-white font-semibold mr-4 rounded-lg shadow-md button-85">
+          <button className="">
             <Link to="/register">Register</Link>
           </button>
         </div>

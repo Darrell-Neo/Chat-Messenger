@@ -9,9 +9,7 @@ const Profile = () => {
   const [userEmailToEdit, setUserEmailToEdit] = useState("");
 
   const fetchProfileDelete = async (url, profileEmailToDelete) => {
-    const bod = JSON.stringify({
-      email: profileEmailToDelete,
-    });
+    const bod = JSON.stringify({ email: profileEmailToDelete });
 
     const options = {
       method: "DELETE",
@@ -32,27 +30,22 @@ const Profile = () => {
       }
 
       const data = await res.json();
-      // setData(data);
       console.log(data);
-      // reactCtx.setUserProfile(data);
 
-      if (reactCtx.userRole == "user") {
+      if (reactCtx.user.role == "user") {
         window.location.reload();
-        // window.location.replace("http://localhost:3000/home");
       }
 
-      if (reactCtx.userRole == "admin") {
+      if (reactCtx.user.role == "admin") {
         reactCtx.fetchDisplay("http://localhost:5001/users/users");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   function handleProfileDelete(event) {
     event.preventDefault();
-    console.log(event.target.id);
-    // if (event.target.id == reactCtx.loginEmail) reactCtx.setEmailInput(event.target.value);
     fetchProfileDelete("http://localhost:5001/users/user", event.target.id);
   }
 
@@ -75,21 +68,18 @@ const Profile = () => {
 
     try {
       const res = await fetch(url, options);
-      console.log(res);
-      console.log(options);
 
       if (res.status !== 200) {
         throw new Error("Something went wrong.");
       }
 
       const data = await res.json();
-      console.log(data);
       alert("profile updated");
       setProfileEdit(false);
 
       reactCtx.fetchDisplay("http://localhost:5001/users/users");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -106,7 +96,6 @@ const Profile = () => {
 
   function handleInput(event) {
     event.preventDefault();
-    // console.log(event.target.id);
     if (event.target.id === "email") reactCtx.setEmailInput(event.target.value);
     if (event.target.id === "password")
       reactCtx.setPasswordInput(event.target.value);
@@ -134,8 +123,7 @@ const Profile = () => {
                 onChange={handleInput}
                 id="email"
                 value={reactCtx.emailInput}
-                className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400 
-                focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
+                className=""
               ></input>
             </div>
             <div>
@@ -145,8 +133,7 @@ const Profile = () => {
                 onChange={handleInput}
                 id="password"
                 value={reactCtx.passwordInput}
-                className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400 
-                focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
+                className=""
               ></input>
             </div>
             <div>
@@ -156,15 +143,11 @@ const Profile = () => {
                 onChange={handleInput}
                 id="name"
                 value={reactCtx.nameInput}
-                className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400 capitalize
-            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
+                className=""
               ></input>
             </div>
             <div>
-              <button
-                onClick={handleUpdate}
-                className="mx-auto block w-50 px-3 py-2 text-white font-semibold rounded-lg shadow-md bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-pink-500 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
-              >
+              <button onClick={handleUpdate} className="">
                 Update
               </button>
             </div>
@@ -176,51 +159,44 @@ const Profile = () => {
       <div>
         {reactCtx.userProfile &&
           reactCtx.userProfile.map((data, index) => {
-            // need conditional rendering because initially displayAll is undefined because its empty. When we do displayAll && it will render when it returns true aka when displayAll is not empty aka not undefined, aka its populated
             return (
-              <div
-                key={index}
-                className="ml-4 my-2 mx-3 pl-2 w-1/4 h-1/4 inline-block m-2 p-2 rounded-lg shadow-lg"
-              >
+              <div key={index} className="">
                 <div>
                   <img
-                  src={require(`../images/${data.photo}`)}
-                  alt=""
-                  className="mx-auto max-h-48 w-auto"
-                />
+                    src={require(`../images/${data.photo}`)}
+                    alt=""
+                    className=""
+                  />
                 </div>
                 <div>
-                  <p className="p-1 capitalize">Name: {data.name}</p>
+                  <p className="">Name: {data.name}</p>
                 </div>
                 <div>
-                  <p id="email" className="p-1">Email: {data.email}</p>
+                  <p id="email" className="">
+                    Email: {data.email}
+                  </p>
                 </div>
                 <div>
-                  <p className="p-1 capitalize">Role: {data.role}</p>
+                  <p className="">Role: {data.role}</p>
                 </div>
                 <div>
-                  <p className="p-1 capitalize">Friends: {data.friends}</p>
+                  <p className="">Friends: {data.friends}</p>
                 </div>
                 <div>
                   <button
                     id={data.email}
                     onClick={handleProfileDelete}
-                    className="text-center mx-auto block w-50 m-1 px-3 text-white font-semibold button-85"
+                    className=""
                   >
-                    {/* Delete */}
                     {reactCtx.loginEmail == data.email ? (
-                      <Link to="/home">Delete</Link>
+                      <Link to="/">Delete</Link>
                     ) : (
                       "Delete"
                     )}
                   </button>
                 </div>
                 <div>
-                  <button
-                    id={index}
-                    onClick={handleProfileEdit}
-                    className="text-center mx-auto block w-50 m-1 px-3 text-white font-semibold button-85"
-                  >
+                  <button id={index} onClick={handleProfileEdit} className="">
                     Edit
                   </button>
                 </div>

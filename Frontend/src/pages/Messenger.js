@@ -9,8 +9,6 @@ import { io } from "socket.io-client";
 const Messenger = () => {
   const reactCtx = useContext(ReactContext);
 
-  // const user = { _id: "62f2c34905197ebd2d1d230d" }; // to update with login
-
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState(null);
@@ -43,20 +41,6 @@ const Messenger = () => {
       console.log(user);
     });
   }, [reactCtx.user]);
-
-  // const [socket, setSocket] = useState(null);
-
-  // useEffect(() => {
-  //   setSocket(io("ws://localhost:8900"));
-  // }, []);
-
-  // console.log(socket);
-
-  // useEffect(() => {
-  //   socket?.on("welcome", (message) => {
-  //     console.log(message);
-  //   });
-  // }, [socket]);
 
   const fetchConversations = async (url) => {
     const options = {
