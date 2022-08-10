@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import ReactContext from "../context/react-context";
 import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const Login = () => {
   const reactCtx = useContext(ReactContext);
@@ -44,16 +45,15 @@ const Login = () => {
       reactCtx.setRefresh(refresh_token);
       reactCtx.setLoginState(true);
       reactCtx.setLoginEmail(reactCtx.emailInput);
-      // alert("Logged in");
+      reactCtx.setUser(jwt_decode(access_token));
+      console.log(reactCtx.user);
     } catch (err) {
-      // setError(err.message);
       console.log(err);
     }
   };
 
   function handleInput(event) {
     event.preventDefault();
-    // console.log(event.target.id);
     if (event.target.id === "email") reactCtx.setEmailInput(event.target.value);
     if (event.target.id === "password")
       reactCtx.setPasswordInput(event.target.value);
@@ -72,8 +72,6 @@ const Login = () => {
 
   return (
     <div className="App">
-      {/* links to the registration page */}
-
       <form onSubmit={handleLogin}>
         <div>
           <div>
@@ -111,7 +109,7 @@ const Login = () => {
             type="submit"
             className="inline-block mx-auto mr-4 w-50 px-3 py-2 text-white font-semibold ml-4 rounded-lg shadow-md button-85"
           >
-            <Link to="/profile">Login</Link>
+            <Link to="/messenger">Login</Link>
           </button>
           <button className="inline-block mx-auto w-50 px-3 py-2 text-white font-semibold mr-4 rounded-lg shadow-md button-85">
             <Link to="/register">Register</Link>

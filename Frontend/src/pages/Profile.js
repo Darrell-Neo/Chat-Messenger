@@ -42,12 +42,9 @@ const Profile = () => {
       }
 
       if (reactCtx.userRole == "admin") {
-        reactCtx.refreshState
-          ? reactCtx.setRefreshState(false)
-          : reactCtx.setRefreshState(true);
+        reactCtx.fetchDisplay("http://localhost:5001/users/users");
       }
     } catch (err) {
-      // setError(err.message);
       console.log(err);
     }
   };
@@ -65,11 +62,6 @@ const Profile = () => {
       newEmail: reactCtx.emailInput,
       newPassword: reactCtx.passwordInput,
       name: reactCtx.nameInput,
-      profileType: reactCtx.profileTypeInput,
-      contact: {
-        address: reactCtx.addressInput,
-        phone: reactCtx.phoneInput,
-      },
     });
 
     const options = {
@@ -95,11 +87,8 @@ const Profile = () => {
       alert("profile updated");
       setProfileEdit(false);
 
-      reactCtx.refreshState
-        ? reactCtx.setRefreshState(false)
-        : reactCtx.setRefreshState(true);
+      reactCtx.fetchDisplay("http://localhost:5001/users/users");
     } catch (err) {
-      // setError(err.message);
       console.log(err);
     }
   };
@@ -113,13 +102,6 @@ const Profile = () => {
     setUserEmailToEdit(reactCtx.userProfile[event.target.id].email);
     reactCtx.setEmailInput(reactCtx.userProfile[event.target.id].email);
     reactCtx.setNameInput(reactCtx.userProfile[event.target.id].name);
-    reactCtx.setProfileTypeInput(
-      reactCtx.userProfile[event.target.id].profileType
-    );
-    reactCtx.setAddressInput(
-      reactCtx.userProfile[event.target.id].contact.address
-    );
-    reactCtx.setPhoneInput(reactCtx.userProfile[event.target.id].contact.phone);
   }
 
   function handleInput(event) {
@@ -128,14 +110,7 @@ const Profile = () => {
     if (event.target.id === "email") reactCtx.setEmailInput(event.target.value);
     if (event.target.id === "password")
       reactCtx.setPasswordInput(event.target.value);
-    // if (event.target.id === "password1")
-    //   reactCtx.setConfirmPassword(event.target.value);
     if (event.target.id === "name") reactCtx.setNameInput(event.target.value);
-    if (event.target.id === "profiletype")
-      reactCtx.setProfileTypeInput(event.target.value);
-    if (event.target.id === "address")
-      reactCtx.setAddressInput(event.target.value);
-    if (event.target.id === "phone") reactCtx.setPhoneInput(event.target.value);
   }
 
   function handleUpdate(event) {
@@ -144,8 +119,8 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    reactCtx.fetchDisplay("http://localhost:5001/users/users"); // eslint-disable-next-line
-  }, [reactCtx.loginState, reactCtx.refreshState]);
+    reactCtx.fetchDisplay("http://localhost:5001/users/users");
+  }, [reactCtx.loginState]);
 
   return (
     <div className="App">
@@ -186,43 +161,6 @@ const Profile = () => {
               ></input>
             </div>
             <div>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Address"
-                  onChange={handleInput}
-                  id="address"
-                  value={reactCtx.addressInput}
-                  className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400 capitalize
-              focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
-                ></input>
-              </div>
-              <div>
-                <input
-                  type="number"
-                  placeholder="Phone Number"
-                  onChange={handleInput}
-                  id="phone"
-                  value={reactCtx.phoneInput}
-                  className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400 capitalize
-              focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
-                ></input>
-              </div>
-            </div>
-            <div>
-              <select
-                id="profiletype"
-                onChange={handleInput}
-                value={reactCtx.profileTypeInput}
-                className="mx-auto m-2 w-1/3 block w-50 px-3 py-2 bg-white border-1 border-slate-300 rounded-md text-sm shadow-md placeholder-slate-400 capitalize
-            focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:italic"
-              >
-                <option value="">Required: What are you doing here?</option>
-                <option value="adopter">Adopting a pet!</option>
-                <option value="poster">Posting an adoption!</option>
-              </select>
-            </div>
-            <div>
               <button
                 onClick={handleUpdate}
                 className="mx-auto block w-50 px-3 py-2 text-white font-semibold rounded-lg shadow-md bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-pink-500 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75"
@@ -245,28 +183,23 @@ const Profile = () => {
                 className="ml-4 my-2 mx-3 pl-2 w-1/4 h-1/4 inline-block m-2 p-2 rounded-lg shadow-lg"
               >
                 <div>
+                  <img
+                  src={require(`../images/${data.photo}`)}
+                  alt=""
+                  className="mx-auto max-h-48 w-auto"
+                />
+                </div>
+                <div>
                   <p className="p-1 capitalize">Name: {data.name}</p>
                 </div>
                 <div>
-                  <p id="email" className="p-1">
-                    Email Address: {data.email}
-                  </p>
-                </div>
-                <div>
-                  <p className="p-1 capitalize">
-                    Profile Type: {data.profileType}
-                  </p>
-                </div>
-                <div>
-                  <p className="p-1 capitalize">
-                    Address: {data.contact?.address}
-                  </p>
-                </div>
-                <div>
-                  <p className="p-1 capitalize">Phone: {data.contact?.phone}</p>
+                  <p id="email" className="p-1">Email: {data.email}</p>
                 </div>
                 <div>
                   <p className="p-1 capitalize">Role: {data.role}</p>
+                </div>
+                <div>
+                  <p className="p-1 capitalize">Friends: {data.friends}</p>
                 </div>
                 <div>
                   <button

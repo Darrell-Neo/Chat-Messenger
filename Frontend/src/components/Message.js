@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./message.css";
 import { format } from "timeago.js";
+import ReactContext from "../context/react-context";
 
-const Message = ({ message, own }) => {
+const Message = ({ message, own, friendPhoto }) => {
+  const reactCtx = useContext(ReactContext);
+
   return (
     <div className={own ? "message own" : "message"}>
       <div className="messageTop">
         <img
           className="messageImg"
-          src="https://m.media-amazon.com/images/M/MV5BOTBhMTI1NDQtYmU4Mi00MjYyLTk5MjEtZjllMDkxOWY3ZGRhXkEyXkFqcGdeQXVyNzI1NzMxNzM@._V1_UY1200_CR92,0,630,1200_AL_.jpg"
+          src={
+            own
+              ? require(`../images/${reactCtx.user.photo}`)
+              : require(`../images/${friendPhoto}`)
+          }
           alt=""
         ></img>
         <p className="messageText">{message.text}</p>

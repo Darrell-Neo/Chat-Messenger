@@ -15,17 +15,8 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    profileType: {
+    photo: {
       type: String,
-      required: true,
-    },
-    contact: {
-      address: {
-        type: String,
-      },
-      phone: {
-        type: Number,
-      },
     },
     dateCreated: {
       type: Date,
@@ -37,8 +28,9 @@ const UserSchema = new mongoose.Schema(
       required: true,
       default: "user",
     },
-    favourites: {
+    friends: {
       type: Array,
+      default: [],
     },
   },
   { collection: "users" }

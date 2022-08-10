@@ -1,14 +1,36 @@
 require("dotenv").config();
 
 const express = require("express");
+const multer = require("multer");
 const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 
 const User = require("../models/User");
 const auth = require("../middleware/auth");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../Frontend/src/images");
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (allowedFileTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+let upload = multer({ storage, fileFilter });
 
 router.post("/login", async (req, res) => {
   try {
@@ -29,7 +51,9 @@ router.post("/login", async (req, res) => {
       id: user._id,
       email: user.email,
       name: user.name,
+      photo: user.photo,
       role: user.role,
+      friends: user.friends,
     };
 
     const access = jwt.sign(payload, process.env.ACCESS_SECRET, {
@@ -59,7 +83,9 @@ router.post("/refresh", (req, res) => {
       id: decoded.id,
       email: decoded.email,
       name: decoded.name,
+      photo: decoded.photo,
       role: decoded.role,
+      friends: decoded.friends,
     };
 
     const access = jwt.sign(payload, process.env.ACCESS_SECRET, {
@@ -79,7 +105,7 @@ router.post("/refresh", (req, res) => {
   }
 });
 
-router.put("/register", async (req, res) => {
+router.put("/register", upload.single("photo"), async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -118,15 +144,10 @@ router.put("/register", async (req, res) => {
     const hash = await bcrypt.hash(req.body.password, 12); // 12-25 is how many times you are salting it
     const createdUser = await User.create({
       email: req.body.email,
-      hash: hash,
+      hash,
       name: req.body.name,
-      profileType: req.body.profileType,
-      contact: {
-        address: req.body.contact?.address,
-        phone: req.body.contact?.phone,
-      },
+      photo: req.file?.filename,
       role: req.body.role,
-      favourites: [],
     });
 
     console.log("created user: ", createdUser);
@@ -170,14 +191,9 @@ router.patch("/user", auth, async (req, res) => {
         $set: {
           email: req.body.newEmail || currentUserData.email,
           name: req.body.name || currentUserData.name,
-          profileType: req.body.profileType || currentUserData.profileType,
-          contact: {
-            address:
-              req.body.contact?.address || currentUserData.contact.address,
-            phone: req.body.contact?.phone || currentUserData.contact.phone,
-          },
+          photo: req.body.photo || currentUserData.photo,
           role: req.body.role || currentUserData.role,
-          favourites: req.body.favourites || currentUserData.favourites,
+          friends: req.body.friends || currentUserData.friends,
         },
       },
       { new: true }
@@ -209,13 +225,8 @@ router.patch("/user", auth, async (req, res) => {
         $set: {
           email: req.body.newEmail || currentUserData.email,
           name: req.body.name || currentUserData.name,
-          profileType: req.body.profileType || currentUserData.profileType,
-          contact: {
-            address:
-              req.body.contact?.address || currentUserData.contact.address,
-            phone: req.body.contact?.phone || currentUserData.contact.phone,
-          },
-          favourites: req.body.favourites || currentUserData.favourites,
+          photo: req.body.photo || currentUserData.photo,
+          friends: req.body.friends || currentUserData.friends,
         },
       },
       { new: true }
@@ -250,24 +261,22 @@ router.delete("/user", auth, async (req, res) => {
   }
 });
 
-router.post("/favourites", auth, async (req, res) => {
-  // const currentUserData = await User.findOne({ email: req.decoded.email });
-  const UserDataFavouritesUpdated = await User.findOneAndUpdate(
+router.post("/friends/:userId", auth, async (req, res) => {
+  const UserDataFriendsUpdated = await User.findOneAndUpdate(
     { email: req.decoded.email },
-    { $push: { favourites: req.body.favouriteAdd } },
+    { $push: { friends: req.params.userId } },
     { new: true }
   );
-  res.json(UserDataFavouritesUpdated);
+  res.json(UserDataFriendsUpdated);
 });
 
-router.delete("/favourites", auth, async (req, res) => {
-  // const currentUserData = await User.findOne({ email: req.decoded.email });
-  const UserDataFavouritesUpdated = await User.findOneAndUpdate(
+router.delete("/friends/:userId", auth, async (req, res) => {
+  const UserDataFriendsUpdated = await User.findOneAndUpdate(
     { email: req.decoded.email },
-    { $pull: { favourites: req.body.favouriteDel } },
+    { $pull: { friends: req.params.userId } },
     { new: true }
   );
-  res.json(UserDataFavouritesUpdated);
+  res.json(UserDataFriendsUpdated);
 });
 
 module.exports = router;

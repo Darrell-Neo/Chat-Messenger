@@ -1,22 +1,13 @@
 import React, { Suspense, useState } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import NavBar2 from "./components/NavBar2";
 import ReactContext from "./context/react-context";
 
 import Profile from "./pages/Profile";
-import Favourite from "./pages/Favourite";
 
 const Messenger = React.lazy(() => import("./pages/Messenger"));
 
-const Home = React.lazy(() => import("./pages/Home"));
-// const Favourite = React.lazy(() => import("./pages/Favourite"));
 const Login = React.lazy(() => import("./pages/Login"));
-const Archive = React.lazy(() => import("./pages/Archive"));
-const Form = React.lazy(() => import("./pages/Form"));
-const Dogs = React.lazy(() => import("./pages/Dogs"));
-const Cats = React.lazy(() => import("./pages/Cats"));
-const SmallAnimals = React.lazy(() => import("./pages/SmallAnimals"));
 const CreateProfile = React.lazy(() => import("./components/CreateProfile"));
 // const Profile = React.lazy(() => import("./pages/Profile"));
 
@@ -38,6 +29,7 @@ function App() {
 
   // login details
   const [userProfile, setUserProfile] = useState("");
+  const [user, setUser] = useState("");
 
   const [loginState, setLoginState] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
@@ -50,6 +42,7 @@ function App() {
   //profile
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [password1Input, setPassword1Input] = useState("");
   const [displayAll, setDisplayAll] = useState("");
   const [searchUserInput, setSearchUserInput] = useState("");
   const [validEmail, setValidEmail] = useState(false);
@@ -248,6 +241,8 @@ function App() {
         setLoginEmail,
         userProfile,
         setUserProfile,
+        user,
+        setUser,
         searchListingInput,
         setSearchListingInput,
         catListing,
@@ -270,6 +265,8 @@ function App() {
         setEmailInput,
         passwordInput,
         setPasswordInput,
+        password1Input,
+        setPassword1Input,
         displayAll,
         setDisplayAll,
         searchUserInput,
@@ -314,23 +311,10 @@ function App() {
     >
       <div className="container">
         <NavBar />
-        <NavBar2 />
         <Suspense fallback={<p>loading...</p>}>
           <Switch>
             <Route exact path="/">
-              <Redirect to="/home"></Redirect>
-            </Route>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route path="/Form">
-              <Form />
-            </Route>
-            <Route path="/Archive">
-              <Archive />
-            </Route>
-            <Route path="/favourite">
-              <Favourite />
+              <Redirect to="/messenger"></Redirect>
             </Route>
             <Route path="/login">
               <Login />
@@ -341,17 +325,8 @@ function App() {
             <Route path="/register">
               <CreateProfile />
             </Route>
-            <Route path="/dogs">
-              <Dogs />
-            </Route>
-            <Route path="/cats">
-              <Cats />
-            </Route>
-            <Route path="/smallanimals">
-              <SmallAnimals />
-            </Route>
             <Route path="/messenger">
-              {!loginState ? <Messenger /> : <Redirect to="/" />}
+              {loginState ? <Messenger /> : <Redirect to="/login" />}
             </Route>
           </Switch>
         </Suspense>
