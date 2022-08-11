@@ -4,16 +4,22 @@
   justify-content: center;
 }
 
+.editWrapper {
+    padding: 10px;
+}
+
 .profileEdit {
   justify-items: center;
 }
 
 .line {
   display: flex;
+  margin-top: 8px;
 }
 
 .profileWrapper {
   display: flex;
+  padding: 10px;
 }
 
 .profile {
@@ -40,6 +46,7 @@ img {
 }
 
 button {
+  margin-top: 8px;
   width: 65px;
   height: 40px;
   border: none;
@@ -53,4 +60,9 @@ button {
 button a {
   color: #ffedda;
   text-decoration: none;
+}
+
+p {
+  margin: 0px;
+  margin-top: 8px;
 }

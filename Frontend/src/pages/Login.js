@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import ReactContext from "../context/react-context";
 import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import "./login.css";
 
 const Login = () => {
   const reactCtx = useContext(ReactContext);
@@ -57,7 +58,7 @@ const Login = () => {
   }
 
   return (
-    <div className="App">
+    <div className="login">
       <form onSubmit={handleLogin}>
         <div>
           <div>

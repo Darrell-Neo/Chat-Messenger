@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactContext from "../context/react-context";
 import { Link } from "react-router-dom";
+import NewConversations from "../components/NewConversations";
 import "./profile.css";
 
 const Profile = () => {
@@ -114,49 +115,54 @@ const Profile = () => {
 
   return (
     <div className="profilePage">
-      {profileEdit ? (
-        <div className="profileEdit">
-          <form>
-            <div className="line">
-              <input
-                type="text"
-                placeholder="Name"
-                onChange={handleInput}
-                id="name"
-                value={reactCtx.nameInput}
-                className=""
-              ></input>
-            </div>
-            <div className="line">
-              <input
-                type="email"
-                placeholder="Email Address"
-                onChange={handleInput}
-                id="email"
-                value={reactCtx.emailInput}
-                className=""
-              ></input>
-            </div>
-            <div className="line">
-              <input
-                type="password"
-                placeholder="New Password"
-                onChange={handleInput}
-                id="password"
-                value={reactCtx.passwordInput}
-                className=""
-              ></input>
-            </div>
-            <div>
-              <button onClick={handleUpdate} className="">
-                Update
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : (
-        <></>
-      )}
+      <div className="editWrapper">
+        {profileEdit ? (
+          <div className="profileEdit">
+            <form>
+              <div className="line">
+                Name:
+                <input
+                  type="text"
+                  placeholder="Name"
+                  onChange={handleInput}
+                  id="name"
+                  value={reactCtx.nameInput}
+                  className=""
+                ></input>
+              </div>
+              <div className="line">
+                Email:
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  onChange={handleInput}
+                  id="email"
+                  value={reactCtx.emailInput}
+                  className=""
+                ></input>
+              </div>
+              <div className="line">
+                Password:
+                <input
+                  type="password"
+                  placeholder="New Password"
+                  onChange={handleInput}
+                  id="password"
+                  value={reactCtx.passwordInput}
+                  className=""
+                ></input>
+              </div>
+              <div>
+                <button onClick={handleUpdate} className="">
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <div className="profileWrapper">
         {reactCtx.userProfile &&
           reactCtx.userProfile.map((data, index) => {
@@ -191,7 +197,12 @@ const Profile = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="">Friends: {data.friends}</p>
+                  <p className="">Friends:</p>
+                  {data.friends?.map((friendId) => (
+                    <div id={friendId}>
+                      <NewConversations friendId={friendId} />
+                    </div>
+                  ))}
                 </div>
                 <div>
                   <button id={index} onClick={handleProfileEdit} className="">

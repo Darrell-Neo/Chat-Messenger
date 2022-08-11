@@ -170,6 +170,11 @@ router.get("/users", auth, async (req, res) => {
   }
 });
 
+router.get("/allusers", async (req, res) => {
+  const users = await User.find(); // can add .select("email") to filter results
+  res.json(users);
+});
+
 router.get("/finduser", async (req, res) => {
   const user = await User.find({ _id: req.query.userId }); // can add .select("email") to filter results
   res.json(user);
