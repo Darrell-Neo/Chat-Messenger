@@ -1,4 +1,4 @@
-.conversations {
+.newConversations {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -6,11 +6,11 @@
   margin-top: 10px;
 }
 
-.conversations:hover {
+.newConversations:hover {
   background: rgb(222, 222, 222);
 }
 
-.conversationsImg {
+.newConversationsImg {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -19,6 +19,6 @@
   margin-right: 20px;
 }
 
-.conversationsName {
+.newConversationsName {
   font-weight: 500;
 }

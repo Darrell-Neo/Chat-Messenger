@@ -1,7 +1,7 @@
 .message {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 .messageTop {
@@ -12,21 +12,24 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
+  border-color: #FFEDDA;
   object-fit: cover;
   margin-right: 10px;
+  align-self: center;
 }
 
 .messageText {
-  padding: 10px;
+  padding: 8px;
+  margin: 8px 0px;
   border-radius: 20px;
-  background-color: blue;
-  color: wheat;
+  background-color: #3db2ff;
+  color: black;
   max-width: 300px;
 }
 
 .messageBottom {
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 3px;
 }
 
 .message.own {
@@ -34,6 +37,6 @@
 }
 
 .message.own .messageText {
-  background-color: beige;
+  background-color: lightgreen;
   color: black;
 }

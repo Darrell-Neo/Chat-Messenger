@@ -261,10 +261,10 @@ router.delete("/user", auth, async (req, res) => {
   }
 });
 
-router.post("/friends/:userId", auth, async (req, res) => {
+router.post("/friends", auth, async (req, res) => {
   const UserDataFriendsUpdated = await User.findOneAndUpdate(
     { email: req.decoded.email },
-    { $push: { friends: req.params.userId } },
+    { $push: { friends: req.body.userId } },
     { new: true }
   );
   res.json(UserDataFriendsUpdated);

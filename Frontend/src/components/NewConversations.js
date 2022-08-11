@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactContext from "../context/react-context";
-import "./conversations.css";
+import "./newConversations.css";
 
-const Conversations = ({ conversation, currentUser }) => {
+const NewConversations = ({ friendId }) => {
   const reactCtx = useContext(ReactContext);
 
-  const [user, setUser] = useState(null);
+  const [friend, setFriend] = useState(null);
 
-  const getUser = async (url) => {
+  const getFriend = async (url) => {
     const options = {
       method: "GET",
       headers: {
@@ -23,35 +23,32 @@ const Conversations = ({ conversation, currentUser }) => {
       }
       const data = await res.json();
       console.log(data);
-      setUser(data);
+      setFriend(data);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    const friendId = conversation.members.find((m) => m !== currentUser);
-    console.log(friendId);
-
-    getUser("http://localhost:5001/users/finduser?userId=" + friendId);
+    getFriend("http://localhost:5001/users/finduser?userId=" + friendId);
   }, []);
 
   return (
-    <div className="conversations">
+    <div className="newConversations">
       <img
-        className="conversationsImg"
+        className="newConversationsImg"
         src={
-          user
-            ? require(`../images/${user[0].photo}`)
+          friend
+            ? require(`../images/${friend[0].photo}`)
             : "https://m.media-amazon.com/images/M/MV5BOTBhMTI1NDQtYmU4Mi00MjYyLTk5MjEtZjllMDkxOWY3ZGRhXkEyXkFqcGdeQXVyNzI1NzMxNzM@._V1_UY1200_CR92,0,630,1200_AL_.jpg"
         }
         alt=""
       ></img>
-      <span className="conversationsName">
-        {user ? user[0].name : "Loading..."}
+      <span className="newConversationsName">
+        {friend ? friend[0].name : "Loading..."}
       </span>
     </div>
   );
 };
 
-export default Conversations;
+export default NewConversations;

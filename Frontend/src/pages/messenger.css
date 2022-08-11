@@ -1,17 +1,53 @@
 .messenger {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 30px);
   display: flex;
+  background-color: #FFEDDA;
 }
 
 .chatMenu {
   flex: 3.5;
+  overflow-y: scroll;
 }
 
 .chatMenuInput {
-  width: 90%;
-  padding: 10px 0;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
   border: none;
+  border-radius: 20px;
   border-bottom: 1px solid gray;
+}
+
+.addConvo {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.addConvo:hover {
+  background: rgb(222, 222, 222);
+}
+
+.addConvoImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.searchFriendsInput {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  border-bottom: 1px solid gray;
+  margin-top: 10px;
 }
 
 .chatBox {
@@ -31,7 +67,7 @@
   padding-right: 10px;
 }
 
-.chatBoxBottom {
+.chatBoxBottomForm {
   margin-top: 5px;
   display: flex;
   align-items: center;
@@ -39,28 +75,30 @@
 }
 
 .chatMessageInput {
-  width: 80%;
-  height: 90px;
+  display: flex;
+  width: 85%;
+  height: 40px;
   padding: 10px;
+  border-radius: 20px;
 }
 
 .chatSubmitButton {
-  width: 70px;
+  width: 65px;
   height: 40px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: teal;
-  color: wheat;
+  background-color: #23A393;
+  color: #FFEDDA;
 }
 
-.chatOnline {
-  flex: 3;
+.chatProfile {
+  flex: 2.5;
 }
 
 .chatMenuWrapper,
 .chatBoxWrapper,
-.chatOnlineWrapper {
+.chatProfileWrapper {
   padding: 10px;
   height: 100%;
 }

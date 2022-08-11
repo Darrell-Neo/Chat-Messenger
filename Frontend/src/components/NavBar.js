@@ -1,28 +1,28 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import styles from "./NavBar.module.css";
+import "./navBar.css"
 import ReactContext from "../context/react-context";
 
 const NavBar = () => {
   const reactCtx = useContext(ReactContext);
   return (
-    <header className={styles.navbar}>
+    <header className="navbar">
       <nav>
         <ul>
           <li>
-            <NavLink to="/messenger" activeClassName={styles.active}>
+            <NavLink to="/messenger">
               Messenger
             </NavLink>
           </li>
           {reactCtx.loginState ? (
-            <li>
-              <NavLink to="/profile" activeClassName={styles.active}>
-                Profile
+            <li id="profile">
+              <NavLink to="/profile">
+                My Profile
               </NavLink>
             </li>
           ) : (
-            <li>
-              <NavLink to="/login" activeClassName={styles.active}>
+            <li id="profile">
+              <NavLink to="/login">
                 Login
               </NavLink>
             </li>

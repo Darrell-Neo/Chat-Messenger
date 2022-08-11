@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactContext from "../context/react-context";
 import { Link } from "react-router-dom";
+import "./profile.css";
 
 const Profile = () => {
   const reactCtx = useContext(ReactContext);
@@ -32,11 +33,11 @@ const Profile = () => {
       const data = await res.json();
       console.log(data);
 
-      if (reactCtx.user.role == "user") {
+      if (reactCtx.user.role === "user") {
         window.location.reload();
       }
 
-      if (reactCtx.user.role == "admin") {
+      if (reactCtx.user.role === "admin") {
         reactCtx.fetchDisplay("http://localhost:5001/users/users");
       }
     } catch (error) {
@@ -74,9 +75,9 @@ const Profile = () => {
       }
 
       const data = await res.json();
+      console.log(data);
       alert("profile updated");
       setProfileEdit(false);
-
       reactCtx.fetchDisplay("http://localhost:5001/users/users");
     } catch (error) {
       console.log(error);
@@ -109,14 +110,24 @@ const Profile = () => {
 
   useEffect(() => {
     reactCtx.fetchDisplay("http://localhost:5001/users/users");
-  }, [reactCtx.loginState]);
+  }, []);
 
   return (
-    <div className="App">
+    <div className="profilePage">
       {profileEdit ? (
-        <div>
+        <div className="profileEdit">
           <form>
-            <div className="justify-center">
+            <div className="line">
+              <input
+                type="text"
+                placeholder="Name"
+                onChange={handleInput}
+                id="name"
+                value={reactCtx.nameInput}
+                className=""
+              ></input>
+            </div>
+            <div className="line">
               <input
                 type="email"
                 placeholder="Email Address"
@@ -126,23 +137,13 @@ const Profile = () => {
                 className=""
               ></input>
             </div>
-            <div>
+            <div className="line">
               <input
                 type="password"
                 placeholder="New Password"
                 onChange={handleInput}
                 id="password"
                 value={reactCtx.passwordInput}
-                className=""
-              ></input>
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Name"
-                onChange={handleInput}
-                id="name"
-                value={reactCtx.nameInput}
                 className=""
               ></input>
             </div>
@@ -156,11 +157,24 @@ const Profile = () => {
       ) : (
         <></>
       )}
-      <div>
+      <div className="profileWrapper">
         {reactCtx.userProfile &&
           reactCtx.userProfile.map((data, index) => {
             return (
-              <div key={index} className="">
+              <div key={index} className="profile">
+                <div className="delete">
+                  <div
+                    id={data.email}
+                    onClick={handleProfileDelete}
+                    className=""
+                  >
+                    {reactCtx.loginEmail === data.email ? (
+                      <Link to="/">X</Link>
+                    ) : (
+                      "X"
+                    )}
+                  </div>
+                </div>
                 <div>
                   <img
                     src={require(`../images/${data.photo}`)}
@@ -177,23 +191,7 @@ const Profile = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="">Role: {data.role}</p>
-                </div>
-                <div>
                   <p className="">Friends: {data.friends}</p>
-                </div>
-                <div>
-                  <button
-                    id={data.email}
-                    onClick={handleProfileDelete}
-                    className=""
-                  >
-                    {reactCtx.loginEmail == data.email ? (
-                      <Link to="/">Delete</Link>
-                    ) : (
-                      "Delete"
-                    )}
-                  </button>
                 </div>
                 <div>
                   <button id={index} onClick={handleProfileEdit} className="">

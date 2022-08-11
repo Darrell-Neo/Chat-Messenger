@@ -1,0 +1,56 @@
+.profilePage {
+  height: calc(100vh - 30px);
+  background-color: #ffedda;
+  justify-content: center;
+}
+
+.profileEdit {
+  justify-items: center;
+}
+
+.line {
+  display: flex;
+}
+
+.profileWrapper {
+  display: flex;
+}
+
+.profile {
+  /* display: flex; */
+  width: 300px;
+}
+
+.delete {
+  cursor: pointer;
+  position: absolute;
+}
+
+.delete a {
+  text-decoration: none;
+  color: black;
+}
+
+img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border-color: #ffedda;
+  object-fit: cover;
+}
+
+button {
+  width: 65px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #23a393;
+  color: #ffedda;
+  text-decoration: none;
+}
+
+button a {
+  color: #ffedda;
+  text-decoration: none;
+}

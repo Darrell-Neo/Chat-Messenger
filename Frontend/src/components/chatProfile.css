@@ -1,0 +1,34 @@
+.chatProfileFriend {
+  display: block;
+  align-items: right;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.chatProfileImgContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatProfileImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border-color: #FFEDDA;
+  object-fit: cover;
+}
+
+.chatProfileName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.chatProfileLastLogin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60%;
+}
