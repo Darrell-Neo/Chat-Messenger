@@ -45,7 +45,7 @@ const Messenger = () => {
   useEffect(() => {
     socket.current.emit("addUser", reactCtx.user.id);
     socket.current.on("getUsers", (user) => {
-      console.log(user);
+      // console.log(user);
     });
   }, [reactCtx.user]);
 
@@ -64,7 +64,7 @@ const Messenger = () => {
         throw new Error("Something went wrong.");
       }
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setConversations(data);
     } catch (error) {
       console.log(error);
@@ -88,7 +88,7 @@ const Messenger = () => {
       )
     );
 
-    console.log(friendsWithoutExistingConvo);
+    // console.log(friendsWithoutExistingConvo);
   }, [conversations]);
 
   // console.log(currentChat);
@@ -139,7 +139,7 @@ const Messenger = () => {
         throw new Error("Something went wrong.");
       }
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setMessages(data);
     } catch (error) {
       console.log(error);
@@ -172,7 +172,7 @@ const Messenger = () => {
     if (currentChat) {
       fetchMessages("http://localhost:5001/messages/" + currentChat?._id);
       const friendId = currentChat?.members.find((m) => m !== reactCtx.user.id);
-      console.log(friendId);
+      // console.log(friendId);
       getFriend("http://localhost:5001/users/finduser?userId=" + friendId);
     }
   }, [currentChat]);
@@ -245,7 +245,7 @@ const Messenger = () => {
         throw new Error("Something went wrong.");
       }
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
 
       // Filter away self
       const dataFiltered = data.filter(

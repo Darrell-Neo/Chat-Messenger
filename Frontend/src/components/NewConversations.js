@@ -22,7 +22,7 @@ const NewConversations = ({ friendId }) => {
         throw new Error("Something went wrong.");
       }
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setFriend(data);
     } catch (error) {
       console.log(error);

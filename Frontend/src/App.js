@@ -42,13 +42,13 @@ function App() {
 
     try {
       const res = await fetch(url, options);
-      console.log(res);
+      // console.log(res);
       if (res.status !== 200) {
         throw new Error("Something went wrong.");
       }
 
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setUserProfile(data);
     } catch (error) {
       console.log(error);

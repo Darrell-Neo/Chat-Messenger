@@ -22,7 +22,7 @@ const Conversations = ({ conversation, currentUser }) => {
         throw new Error("Something went wrong.");
       }
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setUser(data);
     } catch (error) {
       console.log(error);
@@ -31,7 +31,7 @@ const Conversations = ({ conversation, currentUser }) => {
 
   useEffect(() => {
     const friendId = conversation.members.find((m) => m !== currentUser);
-    console.log(friendId);
+    // console.log(friendId);
 
     getUser("http://localhost:5001/users/finduser?userId=" + friendId);
   }, []);
