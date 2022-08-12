@@ -20,6 +20,8 @@ const Messenger = () => {
   const [addConvoToggle, setAddConvoToggle] = useState(false);
   const [findAllToggle, setFindAllToggle] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
+  const [friendsWithoutExistingConvo, setFriendsWithoutExistingConvo] =
+    useState([]);
   const scrollRef = useRef();
   const socket = useRef();
 
@@ -74,6 +76,20 @@ const Messenger = () => {
       "http://localhost:5001/conversations/" + reactCtx.user.id
     );
   }, [addConvoToggle]);
+
+  useEffect(() => {
+    const existingConvoUserIds = conversations.map((convo) =>
+      convo.members.find((m) => m !== reactCtx.user.id)
+    );
+
+    setFriendsWithoutExistingConvo(
+      reactCtx.user.friends?.filter(
+        (friend) => !existingConvoUserIds.includes(friend)
+      )
+    );
+
+    console.log(friendsWithoutExistingConvo);
+  }, [conversations]);
 
   // console.log(currentChat);
 
@@ -296,7 +312,7 @@ const Messenger = () => {
                 />
                 {!findAllToggle ? (
                   <>
-                    {reactCtx.user.friends?.map((friendId) => (
+                    {friendsWithoutExistingConvo?.map((friendId) => (
                       <div id={friendId} onClick={() => startConvo(friendId)}>
                         <NewConversations friendId={friendId} />
                       </div>

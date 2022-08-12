@@ -1,0 +1,13 @@
+.register {
+  height: 100vh;
+  background-color: #ffedda;
+}
+
+h1 {
+  margin: 0px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}

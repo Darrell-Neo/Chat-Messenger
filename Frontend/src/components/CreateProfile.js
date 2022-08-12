@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import ReactContext from "../context/react-context";
+import "./createProfile.css";
 
 const CreateProfile = () => {
   const reactCtx = useContext(ReactContext);
@@ -56,46 +57,46 @@ const CreateProfile = () => {
   }
 
   return (
-    <>
+    <div className="register">
       <h1>Registration Page</h1>
       <form>
-        <div className="">
+        <div>
+          Email:
           <input
             type="email"
             placeholder="Login Email Address"
             onChange={handleInput}
             id="email"
-            className=""
           ></input>
         </div>
         <div>
+          Password:
           <input
             type="password"
             placeholder="Password (minimum of 12 alphanumeric characters)"
             onChange={handleInput}
             id="password"
-            className=""
           ></input>
         </div>
         <div>
+          Password retype:
           <input
             type="password"
             placeholder="Please retype your password"
             onChange={handleInput}
             id="password1"
-            className=""
           ></input>
         </div>
         <div>
+          Name:
           <input
             type="text"
             placeholder="Name"
             onChange={handleInput}
             id="name"
-            className=""
           ></input>
         </div>
-        <div className="">
+        <div>
           Profile Picture:
           <input
             type="file"
@@ -113,7 +114,7 @@ const CreateProfile = () => {
         </div>
       </form>
       <div></div>
-    </>
+    </div>
   );
 };
 
