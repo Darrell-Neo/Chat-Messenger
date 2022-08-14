@@ -45,7 +45,7 @@ const Messenger = () => {
   useEffect(() => {
     socket.current.emit("addUser", reactCtx.user.id);
     socket.current.on("getUsers", (user) => {
-      // console.log(user);
+      console.log(user);
     });
   }, [reactCtx.user]);
 
